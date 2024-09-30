@@ -1,15 +1,15 @@
-use csv::{WriterBuilder};
-use std::{env, error::Error, ffi::OsString};
+use csv::WriterBuilder;
 use std::fs::File;
+use std::{env, error::Error, ffi::OsString};
 
 pub(crate) fn run() -> Result<(), Box<dyn Error>> {
     let file_path: OsString = get_first_arg()?;
-    let file : File = File::create(file_path)?;
+    let file: File = File::create(file_path)?;
     let mut writer = WriterBuilder::new()
         .delimiter(b'\t')
         .quote_style(csv::QuoteStyle::NonNumeric)
         .from_writer(file);
-    
+
     writer.write_record(["City", "State", "Population", "Latitude", "Longitude"])?;
     writer.write_record(["Davidson Landing", "AK", "", "65.241944", "-165.2716667"])?;
     writer.write_record(["Kenai", "AK", "7610", "60.5544444", "-151.2583333"])?;
@@ -27,7 +27,6 @@ pub(crate) fn run() -> Result<(), Box<dyn Error>> {
 
     Ok(())
 }
-
 
 fn get_first_arg() -> Result<OsString, Box<dyn Error>> {
     match env::args_os().nth(1) {

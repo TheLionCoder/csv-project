@@ -1,10 +1,15 @@
-mod write_csv;
+mod serde_performance;
 
 use std::process;
 
 fn main() {
-    if let Err(err) = write_csv::run() {
-        println!("{}", err);
-        process::exit(1);
+    match serde_performance::run() {
+        Ok(count) => {
+            println!("{}", count);
+        }
+        Err(err) => {
+            println!("{}", err);
+            process::exit(1);
+        }
     }
 }
